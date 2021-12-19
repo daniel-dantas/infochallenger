@@ -75,7 +75,7 @@ abstract class VehicleRepository {
                 }
             });
 
-            if(vehicleExistData) {
+            if(vehicleExistData && vehicleExistData.id !== vehicleExist.id) {
                 throw new DuplicateError("This vehicle is already registered in the database");
             } else {
                 const newVehicleResult = await VehicleModel.update(newVehicle, {
