@@ -1,22 +1,20 @@
 import express, { Express, json } from "express";
 import cors from "cors";
 import Router from "./routes";
-import PgConnection, { PG_CONNECTION } from './connections/PgConnection';
 
 interface IConfig {
     PORT?: number,
-    PG_CONNECTION: PG_CONNECTION
 }
 
 class App {
     private main: Express;
     private readonly PORT: number;
 
-    constructor({ PORT, PG_CONNECTION } : IConfig) {
+    constructor({ PORT } : IConfig) {
         this.main = express();
         this.PORT = PORT || 8000;
         this.config();
-        this.database(PG_CONNECTION);
+        this.routes();
     }
 
     public routes () {
@@ -33,15 +31,14 @@ class App {
         this.main.use(json());
     }
 
-    private database(PG_CONNECTION: PG_CONNECTION) {
-        PgConnection.connect(PG_CONNECTION);
-        PgConnection.verifyConnection();
-    }
-
     public listen() {
         this.main.listen(this.PORT, () => {
             console.log(`Server is open in port ${this.PORT}`);
         });
+    }
+
+    public getServer() {
+        return this.main;
     }
 }
 

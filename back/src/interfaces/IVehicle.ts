@@ -1,5 +1,5 @@
 export interface IVehicle {
-    id: string;
+    id?: string;
     board: string;
     chassi: string;
     reindeer: string;
