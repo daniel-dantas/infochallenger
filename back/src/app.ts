@@ -1,11 +1,11 @@
 import express, { Express, json } from "express";
 import cors from "cors";
 import Router from "./routes";
-import PgConnection from './connections/PgConnection';
+import PgConnection, { PG_CONNECTION } from './connections/PgConnection';
 
 interface IConfig {
     PORT?: number,
-    PG_CONNECTION: string
+    PG_CONNECTION: PG_CONNECTION
 }
 
 class App {
@@ -33,7 +33,7 @@ class App {
         this.main.use(json());
     }
 
-    private database(PG_CONNECTION: string) {
+    private database(PG_CONNECTION: PG_CONNECTION) {
         PgConnection.connect(PG_CONNECTION);
         PgConnection.verifyConnection();
     }

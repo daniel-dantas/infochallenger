@@ -1,11 +1,21 @@
 import { Sequelize } from "sequelize";
 
+export interface PG_CONNECTION {
+    database: string,
+    username: string,
+    password: string,
+    host: string,
+}
+
 abstract class PgConnection {
   private static database: Sequelize;
 
-  public static async connect(connectLink: string) {
-    console.log("CONNECT LINK", connectLink);
-    this.database = new Sequelize(connectLink);
+  public static async connect({ database, host, password, username}: PG_CONNECTION) {
+    this.database = new Sequelize(database, username, password, {
+        host,
+        dialect: "postgres"
+    });
+    this.database.sync();
   }
 
   public static getDatabase() {
